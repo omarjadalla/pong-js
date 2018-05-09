@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script>
+largura = 10;
+altura = 10;
+largura_mapa = 500;
+altura_mapa = 500;
+dx='mais';
+dy='mais';
+
+vx=4;
+vy=2;
+x=vx+5;
+y=vy+1;
+
+function anda(){
+				var tempo = window.setInterval(function(){
+
+					if(x>=largura_mapa || x<=vx || colide('x',x)){
+						if(dx=='mais'){dx='menos';}else{dx='mais';}
+					}
+
+					if(y>=altura_mapa || y<=vy || colide('y',y)){
+						if(dy=='mais'){dy='menos';}else{dy='mais';}
+					}
+
+					if(dx=='mais'){x = x+vx;}else{x=x-vx;}					
+						bola.style.left = x+'px';
+
+					if(dy=='mais'){y = y+vy;}else{y=y-vy;}
+						bola.style.top = y+'px';
+
+				},10);
+}
+
+
+function colide(t,p){
+	var col=0;
+	if(t=='x'){total=largura+vx;}
+	if(t=='y'){total=largura+vy;}
+	for(c=0;c<total;c++){
+		if(t=='x'){
+			if(obstaculos[x+c][y]!=false){
+				return true;
+			}
+		}
+		if(t=='y'){
+			if(obstaculos[x][y+c]!=false){
+				return true;			
+			}
+		}
+	}
+	if(col==0){return false;}
+	else{return true;}
+}	
+
+
+
+function carrega(){
+bola = document.getElementById("bola");
+document.getElementById('mapa').style.width=largura_mapa+'px';
+document.getElementById('mapa').style.height=altura_mapa+'px';
+bola.style.width=largura+'px';
+bola.style.height=altura+'px';
+
+
+	cria_mapa();
+	anda();
+}
+</script>
+<script type="text/javascript" src="cria_mapa.js"></script>
+<style>
+.obstaculo{background:#00C; position:absolute; height:1px; width:1px;}
+#mapa{margin:auto; position:relative;}
+#bola{position:relative; background:#000; border-radius:5px;}
+</style>
+</head>
+
+<body onload="carrega();">
+<div id="mapa" name="mapa">
+<div id="bola" name="bola"></div>
+</div>
+
+</body>
+</html>
